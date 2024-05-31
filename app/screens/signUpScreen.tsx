@@ -1,5 +1,4 @@
-import { View, Text } from 'react-native';
-import Authentication from './screens/authentication';
+import Authentication from './authentication';
 
 const SignUpScreen = () => {
   return (
