@@ -15,18 +15,11 @@ export default function Index() {
       setUser(user);
       setLoading(false);
     });
-  }, [])
+  }, []);
 
   return (
     <View className="w-full flex-1">
-      {loading ? (
-        <LoadingScreen />
-      ) :
-      user ? (
-        <HomeScreen />
-      ) : (
-        <WelcomeScreen />
-      )}
+      {loading ? <LoadingScreen /> : user ? <HomeScreen /> : <WelcomeScreen />}
     </View>
   );
 }

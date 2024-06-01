@@ -1,4 +1,4 @@
-import Authentication from './authentication';
+import Authentication from '../components/authentication';
 
 const LoginScreen = () => {
   return (
