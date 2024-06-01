@@ -5,12 +5,12 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 type NavigationTabProps = {
   name: string;
   path: string;
-  icon: "card-bulleted" | "medal" | "calendar-check" | "face-man-shimmer";
+  icon: "card-multiple" | "medal" | "calendar-check" | "face-man-shimmer";
 };
 
 const NavigationTab = () => {
   const tabs: NavigationTabProps[] = [
-    { name: "Flashcards", path: "/screens/homeScreen", icon: "card-bulleted" },
+    { name: "Flashcards", path: "/screens/homeScreen", icon: "card-multiple" },
     { name: "Leaderboard", path: "/screens/leaderboardScreen", icon: "medal" },
     { name: "Planner", path: "/screens/plannerScreen", icon: "calendar-check" },
     {
