@@ -3,8 +3,11 @@ import { FIREBASE_AUTH } from "../../firebaseConfig";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  onAuthStateChanged,
+  User,
+  updateProfile,
 } from "firebase/auth";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "./button";
 import { router } from "expo-router";
 
@@ -22,26 +25,64 @@ const Authentication = ({ type }: AuthProps) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState<User | null>(FIREBASE_AUTH.currentUser);
 
-  const handleSignUpOrLogin = (dispatch: "login" | "signup") => {
+  const handleSignUp = () => {
     return async () => {
       try {
         setLoading(true);
-        const res =
-          dispatch === "login"
-            ? await signInWithEmailAndPassword(auth, email, password)
-            : await createUserWithEmailAndPassword(auth, email, password);
-        console.log(dispatch + ":");
+        const res = await createUserWithEmailAndPassword(auth, email, password);
+        console.log("sign up:");
         console.log(res);
         router.navigate("/screens/homeScreen");
       } catch (error: any) {
         console.log(error);
-        alert(dispatch + " failed: " + error.message);
+        alert("signup failed: " + error.message);
       } finally {
         setLoading(false);
       }
     };
   };
+
+  const handleLogin = () => {
+    return async () => {
+      try {
+        setLoading(true);
+        const res = await signInWithEmailAndPassword(auth, email, password);
+        console.log("login:");
+        console.log(res);
+        router.navigate("/screens/homeScreen");
+      }
+      catch (error: any) {
+        console.log(error);
+        alert("login failed: " + error.message);
+      }
+      finally {
+        setLoading(false);
+      }
+    }
+  }
+
+  const setDefaultDisplayName = async (user: User) => {
+    if (user.displayName == undefined) {
+      try {
+        await updateProfile(user, {
+          displayName: user.email?.split("@")[0],
+        });
+      } catch (error: any) {
+        console.log(error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    onAuthStateChanged(FIREBASE_AUTH, async (user) => {
+      if (user) {
+        setUser(user);
+        setDefaultDisplayName(user);
+      }
+    });
+  }, []);
 
   return (
     <View className="flex-1 justify-center items-center px-4">
@@ -72,8 +113,8 @@ const Authentication = ({ type }: AuthProps) => {
           text={type == "login" ? "Login" : "Create Account"}
           onPress={
             type == "login"
-              ? handleSignUpOrLogin("login")
-              : handleSignUpOrLogin("signup")
+              ? handleLogin()
+              : handleSignUp()
           }
         />
       )}

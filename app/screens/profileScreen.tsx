@@ -8,27 +8,24 @@ import { router } from "expo-router";
 
 /**
  * The profile screen displays the user's display name and a logout button.
- * It also sets the user's display name to their email if it is not set.
+ * Upon logout, user will be redirected to the welcome screen.
  */
 const ProfileScreen = () => {
   const [user, setUser] = useState<User | null>(FIREBASE_AUTH.currentUser);
 
   useEffect(() => {
-    onAuthStateChanged(FIREBASE_AUTH, async (user) => {
-      if (user) {
-        setUser(user);
-        if (user.displayName == undefined) {
-          try {
-            await updateProfile(user, {
-              displayName: user.email?.split("@")[0],
-            });
-          } catch (error: any) {
-            console.log(error);
-          }
-        }
-      }
-    });
+    onAuthStateChanged(FIREBASE_AUTH, setUser);
   }, []);
+
+  const signOutAndBackToWelcomeScreen = async () => {
+    try {
+      await FIREBASE_AUTH.signOut();
+    } catch (error: any) {
+      console.log(error);
+      alert("sign out failed: " + error.message);
+    }
+    router.navigate("/");
+  };
 
   return (
     <View className="flex-1">
@@ -40,15 +37,7 @@ const ProfileScreen = () => {
           bg="dg"
           size="md"
           text="Logout"
-          onPress={async () => {
-            try {
-              await FIREBASE_AUTH.signOut();
-            } catch (error: any) {
-              console.log(error);
-              alert("sign out failed: " + error.message);
-            }
-            router.navigate("/");
-          }}
+          onPress={signOutAndBackToWelcomeScreen}
         />
       </View>
       <NavigationTab />
