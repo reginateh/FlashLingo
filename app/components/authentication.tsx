@@ -34,7 +34,7 @@ const Authentication = ({ type }: AuthProps) => {
         const res = await createUserWithEmailAndPassword(auth, email, password);
         console.log("sign up:");
         console.log(res);
-        router.navigate("/screens/homeScreen");
+        router.navigate("/(tabs)/Flashcards");
       } catch (error: any) {
         console.log(error);
         alert("signup failed: " + error.message);
@@ -51,7 +51,7 @@ const Authentication = ({ type }: AuthProps) => {
         const res = await signInWithEmailAndPassword(auth, email, password);
         console.log("login:");
         console.log(res);
-        router.navigate("/screens/homeScreen");
+        router.navigate("/(tabs)/Flashcards");
       }
       catch (error: any) {
         console.log(error);

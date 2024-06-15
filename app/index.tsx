@@ -2,9 +2,9 @@ import { View } from "react-native";
 import { useEffect, useState } from "react";
 import { User, onAuthStateChanged } from "firebase/auth";
 import { FIREBASE_AUTH } from "@/firebaseConfig";
-import HomeScreen from "./screens/homeScreen";
 import WelcomeScreen from "./screens/welcomeScreen";
 import LoadingScreen from "./screens/loadingScreen";
+import { Redirect } from "expo-router";
 
 export default function Index() {
   const [user, setUser] = useState<User | null>(FIREBASE_AUTH.currentUser);
@@ -19,7 +19,13 @@ export default function Index() {
 
   return (
     <View className="w-full flex-1">
-      {loading ? <LoadingScreen /> : user ? <HomeScreen /> : <WelcomeScreen />}
+      {loading ? (
+        <LoadingScreen />
+      ) : user ? (
+        <Redirect href={"/(tabs)/Flashcards"} />
+      ) : (
+        <WelcomeScreen />
+      )}
     </View>
   );
 }

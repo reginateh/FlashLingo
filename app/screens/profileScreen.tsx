@@ -1,6 +1,5 @@
 import { View, Text } from "react-native";
 import { useState, useEffect } from "react";
-import NavigationTab from "../components/navigationTab";
 import { FIREBASE_AUTH } from "@/firebaseConfig";
 import { onAuthStateChanged, User, updateProfile } from "firebase/auth";
 import Button from "../components/button";
@@ -40,7 +39,6 @@ const ProfileScreen = () => {
           onPress={signOutAndBackToWelcomeScreen}
         />
       </View>
-      <NavigationTab />
     </View>
   );
 };
