@@ -3,7 +3,7 @@ import React from 'react';
 import { View, Text, Image, StyleSheet, FlatList } from 'react-native';
 
 const leaderboardData = [
-    { id: '1', name: 'xinnnyeee', score: '1399m', image: 'path_to_image' },
+    { id: '1', name: 'Elise', score: '1399m', image: '../../assets/images/profile2.jpeg' },
     { id: '2', name: '', score: '', image: '' },
     { id: '3', name: '', score: '', image: '' },
     { id: '4', name: '', score: '', image: '' },
@@ -15,7 +15,7 @@ const LeaderboardScreen: React.FC = () => {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <Image source={{ uri: 'path_to_image' }} style={styles.profileImage} />
+                <Image source={require('../../assets/images/profile1.jpeg')} style={styles.profileImage} />
                 <View>
                     <Text style={styles.congratsText}>Good Job,</Text>
                     <Text style={styles.usernameText}>xinnnyeee!</Text>
