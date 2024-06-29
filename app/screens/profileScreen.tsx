@@ -1,5 +1,5 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image } from "react-native";
-import { useState, useEffect } from "react";
+import { View, Text, TouchableOpacity, ScrollView, Image, StyleSheet, RefreshControl } from "react-native";
+import { useState, useEffect, useCallback } from "react";
 import React from 'react';
 import { FIREBASE_AUTH } from "@/firebaseConfig";
 import { onAuthStateChanged, User, updateProfile } from "firebase/auth";
@@ -7,24 +7,40 @@ import Button from "../components/button";
 import { router } from "expo-router";
 import { Avatar } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
+import { usePullToRefresh } from '../hooks/usePullToRefresh';
+
 
 const ProfileScreen: React.FC = () => {
+  const { refreshing, onRefresh } = usePullToRefresh(async () => {
+    // Simulate a network request or other async operations
+    return new Promise(resolve => setTimeout(resolve, 2000));
+  });
   const navigation = useNavigation();
+
 
   const handleProfilePicturePress = () => {
     // Navigate or perform action on profile picture press
   };
 
+  const handleAddFriend = () => {
+    // Navigate to addFriendScreen
+    router.navigate("addFriendScreen");
+  };
+
   const handleNamePress = () => {
-    // Navigate or perform action on name press
+    // Navigate to changeUsernameScreen
+    router.navigate("changeUsernameScreen");
+
   };
 
   const handleEmailPress = () => {
-    // Navigate or perform action on email press
+    // Navigate to changeEmailScreen
+    router.navigate("changeEmailScreen");
   };
 
   const handleShowMoreFriendsPress = () => {
     // Navigate or perform action on show more friends press
+
   };
 
   const handleSetPress = (setNumber: number) => {
@@ -43,7 +59,7 @@ const ProfileScreen: React.FC = () => {
           />
         </TouchableOpacity>
         <View style={styles.profileInfo}>
-          <Text style={styles.userId}>UserID: 12345678</Text>
+          <Text style={styles.userId}>Hi xinnnyeee</Text>
           <Text style={styles.cardHeight}>Card Height: 333m</Text>
         </View>
       </View>
@@ -56,25 +72,38 @@ const ProfileScreen: React.FC = () => {
         <Text style={styles.infoValue}>xyxy@gmail.com</Text>
       </TouchableOpacity>
       <View style={styles.friendsSection}>
-        <TouchableOpacity onPress={handleShowMoreFriendsPress}>
-          <Text style={styles.showMoreFriends}>Show more friends</Text>
-        </TouchableOpacity>
+        <View style={styles.friendRow}>
+            <Text style={styles.friends}>Friends</Text>
+            <TouchableOpacity onPress={handleAddFriend}>
+              <Avatar 
+                size='small'
+                rounded
+                source={require('../../assets/images/addFriend.png')}
+                containerStyle={styles.avatar}
+                />
+            </TouchableOpacity>
+        </View>
         <View style={styles.friendsList}>
           <View style={styles.friendItem}>
-          <Avatar size = 'large' rounded source={require('../../assets/images/profile2.jpeg')} />
-            <Text>Elise</Text>
+            <Avatar size = 'large' rounded source={require('../../assets/images/profile2.jpeg')} />
+              <Text>Elise</Text>
+            </View>
+            <View style={styles.friendItem}>
+            <Avatar size = 'large' rounded source={require('../../assets/images/profile3.jpeg')} />
+              <Text>Isabelle</Text>
+            </View>
+            <View style={styles.friendItem}>
+            <Avatar size = 'large' rounded source={require('../../assets/images/profile4.jpeg')} />
+              <Text>Sylvie</Text>
+            </View>
           </View>
-          <View style={styles.friendItem}>
-          <Avatar size = 'large' rounded source={require('../../assets/images/profile3.jpeg')} />
-            <Text>Isabelle</Text>
+        <TouchableOpacity onPress={handleShowMoreFriendsPress}>
+          <View style={styles.showMoreFriendsRow}>
+            <Text style={styles.showMoreFriends}>Show more friends</Text>
           </View>
-          <View style={styles.friendItem}>
-          <Avatar size = 'large' rounded source={require('../../assets/images/profile4.jpeg')} />
-            <Text>Sylvie</Text>
-          </View>
-        </View>
+        </TouchableOpacity>
       </View>
-      <View style={styles.finishedSets}>
+      <View>
         <Text style={styles.infoLabel}>Finished Sets</Text>
         <TouchableOpacity style={styles.set} onPress={() => handleSetPress(1)}>
           <Text style={styles.setText}>Set 1</Text>
@@ -87,11 +116,11 @@ const ProfileScreen: React.FC = () => {
   );
 };
 
-const styles = StyleSheet.create({
+export default ProfileScreen;export const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     padding: 16,
-    backgroundColor: '#F4CBA8',
+    backgroundColor: '#F5D7C2',
   },
   profileHeader: {
     flexDirection: 'row',
@@ -107,10 +136,15 @@ const styles = StyleSheet.create({
   userId: {
     fontSize: 16,
     fontWeight: 'bold',
+    height: 70,
+    lineHeight: 50,
+    marginBottom: 5,
   },
   cardHeight: {
     fontSize: 16,
     fontWeight: 'bold',
+    height: 60,
+    lineHeight: 30,
   },
   infoRow: {
     flexDirection: 'row',
@@ -130,10 +164,16 @@ const styles = StyleSheet.create({
   friendsSection: {
     marginVertical: 20,
   },
-  showMoreFriends: {
-    fontSize: 12,
-    color: '828282',
+  friendRow: {
+    flex: 1,
+    flexDirection: 'row',
     marginBottom: 10,
+    alignItems: 'centre',
+  },
+  friends: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginRight: 10,
   },
   friendsList: {
     flexDirection: 'row',
@@ -142,9 +182,14 @@ const styles = StyleSheet.create({
   friendItem: {
     alignItems: 'center',
   },
-  finishedSets: {
-    marginVertical: 20,
-    fontSize: 20,
+  showMoreFriendsRow: {
+    flex: 1,
+    marginBottom: 10,
+    paddingVertical: 10,
+    alignItems: 'flex-end',
+  },
+  showMoreFriends: {
+    fontSize: 12,
   },
   set: {
     padding: 20,
@@ -158,4 +203,3 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProfileScreen;

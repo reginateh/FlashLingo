@@ -29,7 +29,7 @@ const LeaderboardScreen: React.FC = () => {
                     renderItem={({ item }) => (
                         <View style={styles.leaderboardItem}>
                             <Text style={styles.leaderboardPosition}>{item.id}</Text>
-                            <Image source={{ uri: item.image }} style={styles.leaderboardImage} />
+                            <Image source={require('../../assets/images/profile1.jpeg')} style={styles.leaderboardImage} />
                             <Text style={styles.leaderboardName}>{item.name}</Text>
                             <Text style={styles.leaderboardScore}>{item.score}</Text>
                         </View>
