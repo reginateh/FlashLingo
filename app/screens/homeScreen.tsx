@@ -12,10 +12,9 @@ import { FIREBASE_AUTH } from "@/firebaseConfig";
 import { DocumentData } from "firebase/firestore";
 import LoadingScreen from "./loadingScreen";
 import { onAuthStateChanged } from "firebase/auth";
-import { Tabs } from "expo-router";
+import { Tabs, useFocusEffect } from "expo-router";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import InputModal from "../components/InputModal";
-import { useFocusEffect } from "expo-router";
 
 /**
  * The home screen of the app.

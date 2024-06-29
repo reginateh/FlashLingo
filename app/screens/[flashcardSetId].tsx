@@ -1,17 +1,21 @@
-import { View, Text, TouchableWithoutFeedback } from "react-native";
-import { useLocalSearchParams } from "expo-router";
+import {
+  View,
+  Text,
+  TouchableWithoutFeedback,
+  FlatList,
+  TouchableOpacity,
+  Modal,
+} from "react-native";
+import { useLocalSearchParams, router, Stack } from "expo-router";
 import { useEffect, useState } from "react";
 import { FlashcardType } from "../components/flashcard/FlashcardType";
-import { FlatList, TouchableOpacity, Modal } from "react-native";
 import FlashcardDetails from "../components/flashcard/FlashcardDetails";
 import FlashcardPreview from "../components/flashcard/FlashcardPreview";
 import Icon from "@expo/vector-icons/Ionicons";
-import { Stack } from "expo-router";
 import FlashcardData from "../components/flashcard/FlashcardData";
 import { FIREBASE_AUTH } from "@/firebaseConfig";
 import InputModal from "../components/InputModal";
 import FlashcardSetTitleEditor from "../components/flashcard/FlashcardSetTitleEditor";
-import { router } from "expo-router";
 import DeleteConfirmation from "../components/DeleteConfirmation";
 
 /**
