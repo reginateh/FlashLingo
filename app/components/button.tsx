@@ -27,7 +27,8 @@ const Button = ({ bg, size, text, onPress }: ButtonProps) => {
       : "bg-[#D98A74]";
   const textColour = "text-black";
   const width = size === "sm" ? "w-1/4" : size === "md" ? "w-1/2" : "w-full";
-  const textSize = size === "sm" ? "text-lg" : size === "md" ? "text-xl" : "text-xl";
+  const textSize =
+    size === "sm" ? "text-lg" : size === "md" ? "text-xl" : "text-xl";
   return (
     <TouchableOpacity
       onPress={onPress}
