@@ -1,9 +1,10 @@
 import { View, Text } from "react-native";
 import { useState, useEffect } from "react";
 import { FIREBASE_AUTH } from "@/firebaseConfig";
-import { onAuthStateChanged, User, updateProfile } from "firebase/auth";
+import { onAuthStateChanged, User } from "firebase/auth";
 import Button from "../components/button";
 import { router } from "expo-router";
+import FlashcardData from "../components/flashcard/FlashcardData";
 
 /**
  * The profile screen displays the user's display name and a logout button.
@@ -18,6 +19,7 @@ const ProfileScreen = () => {
 
   const signOutAndBackToWelcomeScreen = async () => {
     try {
+      FlashcardData.clearInstance();
       await FIREBASE_AUTH.signOut();
     } catch (error: any) {
       console.log(error);

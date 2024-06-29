@@ -1,17 +1,17 @@
 import { View, Text } from "react-native";
 
 type FlashcardPreviewProps = {
-  id: number;
+  word: string;
 };
 
 /**
- * A Flashcard preview component to be displayed in the flashcard set details screen.
+ * A Flashcard preview component to be displayed in the FlashcardSetDetailsScreen.
  * @param id The id of the flashcard
  */
-const FlashcardPreview = ({ id }: FlashcardPreviewProps) => {
+const FlashcardPreview = ({ word }: FlashcardPreviewProps) => {
   return (
     <View className="p-5 bg-gray-100 my-2 rounded-lg shadow-md">
-      <Text className="text-lg">Flashcard {id}</Text>
+      <Text className="text-lg">{word}</Text>
     </View>
   );
 };

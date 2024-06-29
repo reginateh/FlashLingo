@@ -1,6 +1,7 @@
 export type FlashcardType = {
-  id: number,
-  word: string,
-  definition: string,
-  partOfSpeech: string
-}
+  id: string;
+  word: string;
+  definition: string;
+  partOfSpeech: string;
+  level: number;
+};
