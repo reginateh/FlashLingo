@@ -31,7 +31,7 @@ const ChangeUsernameScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F7E2CD',
+    backgroundColor: '#F5D7C2',
     padding: 20,
   },
   header: {

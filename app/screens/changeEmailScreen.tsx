@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: '#FBE9E7',
+    backgroundColor: '#F5D7C2',
   },
   input: {
     height: 40,

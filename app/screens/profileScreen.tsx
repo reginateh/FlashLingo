@@ -8,6 +8,9 @@ import { router } from "expo-router";
 import { Avatar } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 import { usePullToRefresh } from '../hooks/usePullToRefresh';
+import ChangeUsernameScreen from "./changeUsernameScreen";
+import ChangeEmailScreen from "./changeEmailScreen";
+import AddFriendScreen from "./addFriendScreen";
 
 
 const ProfileScreen: React.FC = () => {
@@ -24,18 +27,18 @@ const ProfileScreen: React.FC = () => {
 
   const handleAddFriend = () => {
     // Navigate to addFriendScreen
-    router.navigate("addFriendScreen");
+    return <AddFriendScreen />
   };
 
   const handleNamePress = () => {
     // Navigate to changeUsernameScreen
-    router.navigate("changeUsernameScreen");
+    return <ChangeUsernameScreen />
 
   };
 
   const handleEmailPress = () => {
     // Navigate to changeEmailScreen
-    router.navigate("changeEmailScreen");
+    return <ChangeEmailScreen />
   };
 
   const handleShowMoreFriendsPress = () => {
@@ -168,7 +171,7 @@ export default ProfileScreen;export const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     marginBottom: 10,
-    alignItems: 'centre',
+    alignItems: 'center',
   },
   friends: {
     fontSize: 18,
