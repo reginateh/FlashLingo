@@ -31,9 +31,7 @@ const FlashcardPracticeScreen = () => {
 
     if (cards.length === 0) {
       alert("No flashcards available in this set.");
-      router.push({
-        pathname: `/screens/${flashcardSetId}`,
-      });
+      router.back();
       return;
     }
 
