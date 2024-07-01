@@ -37,9 +37,9 @@ const InputModal = ({
     setValues(newValues);
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     setValues(initialValues);
-    onSave(values);
+    await onSave(values);
   };
 
   const handleCancel = () => {

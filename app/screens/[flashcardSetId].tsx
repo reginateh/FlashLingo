@@ -17,6 +17,7 @@ import { FIREBASE_AUTH } from "@/firebaseConfig";
 import InputModal from "../components/InputModal";
 import FlashcardSetTitleEditor from "../components/flashcard/FlashcardSetTitleEditor";
 import DeleteConfirmation from "../components/DeleteConfirmation";
+import Button from "../components/button";
 
 /**
  * The details screen for a flashcard set.
@@ -40,6 +41,8 @@ const FlashcardSetDetailsScreen = () => {
 
   // Fetch flashcards in this flashcard set
   useEffect(() => {
+    let isMounted = true;
+
     const fetchData = async () => {
       try {
         const user = FIREBASE_AUTH.currentUser;
@@ -50,14 +53,22 @@ const FlashcardSetDetailsScreen = () => {
         const cards = await FlashcardData.getInstance(
           user.uid
         ).getFlashcardsBySetId(id);
-        setFlashcards(cards);
+        if (isMounted) {
+          setFlashcards(cards);
+        }
       } catch (err: any) {
-        console.log(err.message);
+        if (isMounted) {
+          console.log(err.message);
+        }
       }
     };
 
     fetchData();
-  }, []);
+
+    return () => {
+      isMounted = false;
+    };
+  }, [id]);
 
   /////////////////////////
   // EDIT CARD SET TITLE //
@@ -240,9 +251,12 @@ const FlashcardSetDetailsScreen = () => {
    * Display the flashcards in a scrollable list.
    */
   const ScrollFlashcardsView = () => {
+    const sortedFlashcards = flashcards.sort((card1, card2) =>
+      card1.word.localeCompare(card2.word)
+    );
     return (
       <FlatList
-        data={flashcards}
+        data={sortedFlashcards}
         keyExtractor={(item) => item.id.toString()}
         renderItem={({ item, index }) => (
           <TouchableOpacity onPress={() => openCardDetails(index)}>
@@ -307,6 +321,23 @@ const FlashcardSetDetailsScreen = () => {
     );
   };
 
+  const StartPracticeButton = () => {
+    return (
+      <View className="justify-center items-center">
+        <Button
+          bg="dp"
+          size="md"
+          text="Start Practice"
+          onPress={() =>
+            router.navigate(
+              `/screens/flashcardPracticeScreen?flashcardSetId=${id}`
+            )
+          }
+        />
+      </View>
+    );
+  };
+
   return (
     <View className="flex-1 p-5">
       <Stack.Screen options={{ title: "", headerBackTitle: "Flashcards" }} />
@@ -324,6 +355,7 @@ const FlashcardSetDetailsScreen = () => {
         </Text>
       </View>
       <ScrollFlashcardsView />
+      <StartPracticeButton />
       <AddCardAndDeleteSetButtons />
       {selectedCardIndex !== null && (
         <Modal visible={selectedCardIndex !== null} transparent={true}>

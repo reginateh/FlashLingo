@@ -181,10 +181,44 @@ class FlashcardData {
     }
     flashcards[index] = flashcard;
     this.flashcards.set(setId, flashcards);
+    const toFireStore = {
+      word: flashcard.word,
+      definition: flashcard.definition,
+      partOfSpeech: flashcard.partOfSpeech,
+      level: flashcard.level,
+    };
     await setDoc(
       doc(this.userRef, "flashcardSets", setId, "flashcards", flashcard.id),
-      flashcard
+      toFireStore
     );
+  }
+
+  /**
+   * Update the level of a flashcard in a given flashcard set.
+   * @param setId The ID of the flashcard set to update the flashcard in.
+   * @param flashcardId The ID of the flashcard to update the level of.
+   * @param addLevel The number to add to the current level of the flashcard.
+   */
+  public async updateFlashcardLevel(
+    setId: string,
+    flashcardId: string,
+    addLevel: number
+  ) {
+    const flashcards: FlashcardType[] = this.flashcards.get(setId) ?? [];
+    const index = flashcards.findIndex((card) => card.id === flashcardId);
+    if (index === -1) {
+      return;
+    }
+    const flashcard = flashcards[index];
+    const oldLevel = flashcard.level;
+    flashcard.level = oldLevel + addLevel;
+    flashcards[index] = flashcard;
+    this.flashcards.set(setId, flashcards);
+    if (oldLevel === 0) {
+      await this.updateFlashcardSetCardCount(setId, -1, "new");
+      await this.updateFlashcardSetCardCount(setId, 1, "active");
+    }
+    await this.updateFlashcard(setId, flashcard);
   }
 
   /**
