@@ -27,13 +27,14 @@ const Button = ({ bg, size, text, onPress }: ButtonProps) => {
       : "bg-[#D98A74]";
   const textColour = "text-black";
   const width = size === "sm" ? "w-1/4" : size === "md" ? "w-1/2" : "w-full";
-  const height = size === "sm" ? "h-8" : size === "md" ? "h-10" : "h-12";
+  const textSize =
+    size === "sm" ? "text-lg" : size === "md" ? "text-xl" : "text-xl";
   return (
     <TouchableOpacity
       onPress={onPress}
       className={`p-2 mt-2 rounded-xl flex justify-center items-center text-center ${backgroundColour} ${width}`}
     >
-      <Text className={`text-xl ${textColour}`}>{text}</Text>
+      <Text className={`${textSize} ${textColour}`}>{text}</Text>
     </TouchableOpacity>
   );
 };

@@ -1,25 +1,27 @@
-import { View, Text, TouchableOpacity, ScrollView, Image, StyleSheet, RefreshControl } from "react-native";
-import { useState, useEffect, useCallback } from "react";
-import React from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  StyleSheet,
+} from "react-native";
+import React from "react";
 import { FIREBASE_AUTH } from "@/firebaseConfig";
-import { onAuthStateChanged, User, updateProfile } from "firebase/auth";
-import Button from "../components/button";
 import { router } from "expo-router";
-import { Avatar } from 'react-native-elements';
-import { useNavigation } from '@react-navigation/native';
-import { usePullToRefresh } from '../hooks/usePullToRefresh';
+import FlashcardData from "../components/flashcard/FlashcardData";
+import { Avatar } from "react-native-elements";
+import { useNavigation } from "@react-navigation/native";
+import { usePullToRefresh } from "../hooks/usePullToRefresh";
 import ChangeUsernameScreen from "./changeUsernameScreen";
 import ChangeEmailScreen from "./changeEmailScreen";
 import AddFriendScreen from "./addFriendScreen";
 
-
 const ProfileScreen: React.FC = () => {
   const { refreshing, onRefresh } = usePullToRefresh(async () => {
     // Simulate a network request or other async operations
-    return new Promise(resolve => setTimeout(resolve, 2000));
+    return new Promise((resolve) => setTimeout(resolve, 2000));
   });
   const navigation = useNavigation();
-
 
   const handleProfilePicturePress = () => {
     // Navigate or perform action on profile picture press
@@ -27,27 +29,36 @@ const ProfileScreen: React.FC = () => {
 
   const handleAddFriend = () => {
     // Navigate to addFriendScreen
-    return <AddFriendScreen />
+    router.navigate("/screens/addFriendScreen");
   };
 
   const handleNamePress = () => {
     // Navigate to changeUsernameScreen
-    return <ChangeUsernameScreen />
-
+    return <ChangeUsernameScreen />;
   };
 
   const handleEmailPress = () => {
     // Navigate to changeEmailScreen
-    return <ChangeEmailScreen />
+    return <ChangeEmailScreen />;
   };
 
   const handleShowMoreFriendsPress = () => {
     // Navigate or perform action on show more friends press
-
   };
 
   const handleSetPress = (setNumber: number) => {
     // Navigate or perform action on set press
+  };
+
+  const signOutAndBackToWelcomeScreen = async () => {
+    try {
+      FlashcardData.clearInstance();
+      await FIREBASE_AUTH.signOut();
+    } catch (error: any) {
+      console.log(error);
+      alert("sign out failed: " + error.message);
+    }
+    router.navigate("/");
   };
 
   return (
@@ -57,7 +68,7 @@ const ProfileScreen: React.FC = () => {
           <Avatar
             size="xlarge"
             rounded
-            source={require('../../assets/images/profile1.jpeg')} // Replace with your image source
+            source={require("../../assets/images/profile1.jpeg")} // Replace with your image source
             containerStyle={styles.avatar}
           />
         </TouchableOpacity>
@@ -76,30 +87,42 @@ const ProfileScreen: React.FC = () => {
       </TouchableOpacity>
       <View style={styles.friendsSection}>
         <View style={styles.friendRow}>
-            <Text style={styles.friends}>Friends</Text>
-            <TouchableOpacity onPress={handleAddFriend}>
-              <Avatar 
-                size='small'
-                rounded
-                source={require('../../assets/images/addFriend.png')}
-                containerStyle={styles.avatar}
-                />
-            </TouchableOpacity>
+          <Text style={styles.friends}>Friends</Text>
+          <TouchableOpacity onPress={handleAddFriend}>
+            <Avatar
+              size="small"
+              rounded
+              source={require("../../assets/images/addFriend.png")}
+              containerStyle={styles.avatar}
+            />
+          </TouchableOpacity>
         </View>
         <View style={styles.friendsList}>
           <View style={styles.friendItem}>
-            <Avatar size = 'large' rounded source={require('../../assets/images/profile2.jpeg')} />
-              <Text>Elise</Text>
-            </View>
-            <View style={styles.friendItem}>
-            <Avatar size = 'large' rounded source={require('../../assets/images/profile3.jpeg')} />
-              <Text>Isabelle</Text>
-            </View>
-            <View style={styles.friendItem}>
-            <Avatar size = 'large' rounded source={require('../../assets/images/profile4.jpeg')} />
-              <Text>Sylvie</Text>
-            </View>
+            <Avatar
+              size="large"
+              rounded
+              source={require("../../assets/images/profile2.jpeg")}
+            />
+            <Text>Elise</Text>
           </View>
+          <View style={styles.friendItem}>
+            <Avatar
+              size="large"
+              rounded
+              source={require("../../assets/images/profile3.jpeg")}
+            />
+            <Text>Isabelle</Text>
+          </View>
+          <View style={styles.friendItem}>
+            <Avatar
+              size="large"
+              rounded
+              source={require("../../assets/images/profile4.jpeg")}
+            />
+            <Text>Sylvie</Text>
+          </View>
+        </View>
         <TouchableOpacity onPress={handleShowMoreFriendsPress}>
           <View style={styles.showMoreFriendsRow}>
             <Text style={styles.showMoreFriends}>Show more friends</Text>
@@ -115,52 +138,56 @@ const ProfileScreen: React.FC = () => {
           <Text style={styles.setText}>Set 2</Text>
         </TouchableOpacity>
       </View>
+      <TouchableOpacity onPress={signOutAndBackToWelcomeScreen} className="items-center">
+        <Text>Sign Out</Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 };
 
 export default ProfileScreen;
+
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     padding: 16,
-    backgroundColor: '#F5D7C2',
+    backgroundColor: "#F5D7C2",
   },
   profileHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     marginBottom: 20,
   },
   avatar: {
     marginRight: 20,
   },
   profileInfo: {
-    flexDirection: 'column',
+    flexDirection: "column",
   },
   userId: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     height: 70,
     lineHeight: 50,
     marginBottom: 5,
   },
   cardHeight: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     height: 60,
     lineHeight: 30,
   },
   infoRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     paddingVertical: 10,
     borderBottomWidth: 1,
-    borderBottomColor: '#ccc',
+    borderBottomColor: "#ccc",
   },
   infoLabel: {
     fontSize: 16,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   infoValue: {
     fontSize: 16,
@@ -170,40 +197,39 @@ const styles = StyleSheet.create({
   },
   friendRow: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
     marginBottom: 10,
-    alignItems: 'center',
+    alignItems: "center",
   },
   friends: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginRight: 10,
   },
   friendsList: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
+    flexDirection: "row",
+    justifyContent: "space-around",
   },
   friendItem: {
-    alignItems: 'center',
+    alignItems: "center",
   },
   showMoreFriendsRow: {
     flex: 1,
     marginBottom: 10,
     paddingVertical: 10,
-    alignItems: 'flex-end',
+    alignItems: "flex-end",
   },
   showMoreFriends: {
     fontSize: 12,
   },
   set: {
     padding: 20,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: "#FFFFFF",
     borderRadius: 10,
     marginVertical: 10,
   },
   setText: {
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 });
-

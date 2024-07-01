@@ -110,7 +110,7 @@ const Authentication = ({ type }: AuthProps) => {
         <Button
           bg="dg"
           size="md"
-          text={type == "login" ? "Login" : "Create Account"}
+          text={type == "login" ? "Login" : "Sign Up"}
           onPress={
             type == "login"
               ? handleLogin()
