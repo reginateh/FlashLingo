@@ -119,7 +119,8 @@ const ProfileScreen: React.FC = () => {
   );
 };
 
-export default ProfileScreen;export const styles = StyleSheet.create({
+export default ProfileScreen;
+const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     padding: 16,
